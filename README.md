@@ -1,111 +1,94 @@
-# Portfolio Backend Server
+# Portfolio Project
 
-Express.js backend for handling contact form submissions via email.
+This is a full-stack portfolio application consisting of a React frontend and an Express.js backend.
+
+## Project Structure
+
+```
+/
+├── frontend/     # React + Vite application
+└── backend/      # Express.js + MongoDB API
+```
 
 ## Setup Instructions
 
-### 1. Install Dependencies
-```bash
-cd server
-npm install
-```
+### Prerequisites
+- Node.js (v18+)
+- MongoDB connection string (Atlas or local)
+- Gmail account (for contact form emails)
 
-### 2. Configure Gmail App Password
+### 1. Backend Setup
 
-1. Go to your Google Account: https://myaccount.google.com/
-2. Navigate to **Security** → **2-Step Verification** (enable if not already)
-3. Scroll down to **App Passwords**
-4. Click **Select app** → Choose **Mail**
-5. Click **Select device** → Choose **Other (Custom name)**
-6. Enter "Portfolio Backend" and click **Generate**
-7. Copy the 16-character password (remove spaces)
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file in the `backend/` directory:
+   ```env
+   PORT=5000
+   MONGODB_URI=your_mongodb_connection_string
+   EMAIL_USER=your_email@gmail.com
+   EMAIL_PASS=your_app_password
+   JWT_SECRET=your_jwt_secret
+   ADMIN_EMAIL=your_admin_email@example.com
+   ```
+4. Start the server:
+   ```bash
+   npm run dev
+   ```
 
-### 3. Create Environment File
+### 2. Frontend Setup
 
-```bash
-# Copy the example file
-cp .env.example .env
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file in the `frontend/` directory (optional for local, but good practice):
+   ```env
+   VITE_API_URL=http://localhost:5000
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-# Edit .env and add your Gmail App Password
-# Replace 'your_gmail_app_password_here' with the password from step 2
-```
+## Deployment on Render.com
 
-Your `.env` file should look like:
-```
-PORT=5000
-EMAIL_USER=pasancp2000@gmail.com
-EMAIL_PASS=abcd efgh ijkl mnop  # Your actual app password
-```
+This project is configured to be deployed easily on Render. You can deploy both the frontend and backend as separate services from the same repository.
 
-### 4. Run the Server
+### Backend (Web Service)
+1. Create a new **Web Service** on Render.
+2. Connect your GitHub repository.
+3. Settings:
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+4. **Environment Variables**:
+   Add all variables from your `backend/.env` file.
 
-**Development mode (with auto-restart):**
-```bash
-npm run dev
-```
+### Frontend (Static Site)
+1. Create a new **Static Site** on Render.
+2. Connect your GitHub repository.
+3. Settings:
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm install && npm run build`
+   - **Publish Directory**: `dist`
+4. **Environment Variables**:
+   - `VITE_API_URL`: The URL of your deployed Backend Web Service (e.g., `https://my-portfolio-api.onrender.com`).
 
-**Production mode:**
-```bash
-npm start
-```
+## Features
+- **Dynamic Content**: Manage Projects, Experience, Skills, and Education via the Admin Dashboard.
+- **Admin Portal**: Secure login with Email OTP.
+- **Contact Form**: direct email integration using Nodemailer.
+- **Responsive Design**: Built with Tailwind CSS and Framer Motion.
 
-The server will start on `http://localhost:5000`
-
-## Testing
-
-### Health Check
-```bash
-curl http://localhost:5000/api/health
-```
-
-### Test Contact Form
-```bash
-curl -X POST http://localhost:5000/api/contact \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Test User",
-    "email": "test@example.com",
-    "message": "This is a test message"
-  }'
-```
-
-## API Endpoints
-
-### GET /api/health
-Health check endpoint
-- **Response**: `{ status: 'OK', message: 'Server is running' }`
-
-### POST /api/contact
-Submit contact form
-- **Body**: 
-  ```json
-  {
-    "name": "string",
-    "email": "string",
-    "message": "string"
-  }
-  ```
-- **Success Response**: `{ success: true, message: 'Message sent successfully!' }`
-- **Error Response**: `{ success: false, message: 'Error message' }`
-
-## Deployment
-
-For production deployment, you can use:
-- **Heroku**: `heroku create` and `git push heroku main`
-- **Railway**: Connect your GitHub repo
-- **Render**: Deploy from GitHub
-- **DigitalOcean**: Use App Platform
-
-Remember to set environment variables in your hosting platform!
-
-## Troubleshooting
-
-**Email not sending?**
-- Verify Gmail App Password is correct
-- Check if 2-Step Verification is enabled
-- Make sure .env file is in the server directory
-- Check server logs for error messages
-
-**CORS errors?**
-- Make sure the frontend is running on the expected port
-- Update CORS configuration in server.js if needed
+## License
+MIT
