@@ -19,7 +19,7 @@ export default function About() {
     useEffect(() => {
         const fetchSettings = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/public/settings');
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/public/settings`);
                 if (response.data.success && response.data.data) {
                     setAboutData(response.data.data.about);
                 }

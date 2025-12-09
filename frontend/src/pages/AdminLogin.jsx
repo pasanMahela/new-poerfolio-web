@@ -18,7 +18,7 @@ export default function AdminLogin() {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/request-otp', { email });
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/request-otp`, { email });
 
             if (response.data.success) {
                 toast.success('OTP sent to your email!');
@@ -38,7 +38,7 @@ export default function AdminLogin() {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/verify-otp', { email, otp });
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/verify-otp`, { email, otp });
 
             if (response.data.success) {
                 // Store token

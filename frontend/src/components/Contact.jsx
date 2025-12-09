@@ -70,7 +70,7 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/contact", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -142,8 +142,8 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   className={`w-full rounded-lg border bg-white px-4 py-2.5 pl-10 text-zinc-900 outline-none transition-all dark:bg-zinc-900 dark:text-zinc-100 ${errors.name
-                      ? 'border-red-300 ring-2 ring-red-100 dark:border-red-700 dark:ring-red-900/20'
-                      : 'border-zinc-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-zinc-700 dark:focus:border-sky-400'
+                    ? 'border-red-300 ring-2 ring-red-100 dark:border-red-700 dark:ring-red-900/20'
+                    : 'border-zinc-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-zinc-700 dark:focus:border-sky-400'
                     }`}
                   placeholder="Your full name"
                   disabled={isSubmitting}
@@ -168,8 +168,8 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   className={`w-full rounded-lg border bg-white px-4 py-2.5 pl-10 text-zinc-900 outline-none transition-all dark:bg-zinc-900 dark:text-zinc-100 ${errors.email
-                      ? 'border-red-300 ring-2 ring-red-100 dark:border-red-700 dark:ring-red-900/20'
-                      : 'border-zinc-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-zinc-700 dark:focus:border-sky-400'
+                    ? 'border-red-300 ring-2 ring-red-100 dark:border-red-700 dark:ring-red-900/20'
+                    : 'border-zinc-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-zinc-700 dark:focus:border-sky-400'
                     }`}
                   placeholder="your.email@example.com"
                   disabled={isSubmitting}
@@ -194,8 +194,8 @@ export default function Contact() {
                   onChange={handleChange}
                   rows={5}
                   className={`w-full rounded-lg border bg-white px-4 py-2.5 pl-10 text-zinc-900 outline-none transition-all resize-none dark:bg-zinc-900 dark:text-zinc-100 ${errors.message
-                      ? 'border-red-300 ring-2 ring-red-100 dark:border-red-700 dark:ring-red-900/20'
-                      : 'border-zinc-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-zinc-700 dark:focus:border-sky-400'
+                    ? 'border-red-300 ring-2 ring-red-100 dark:border-red-700 dark:ring-red-900/20'
+                    : 'border-zinc-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-zinc-700 dark:focus:border-sky-400'
                     }`}
                   placeholder="Tell me about your project..."
                   disabled={isSubmitting}
@@ -214,8 +214,8 @@ export default function Contact() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className={`w-full rounded-lg px-6 py-3 font-medium text-white transition-all flex items-center justify-center gap-2 ${isSubmitting
-                  ? 'bg-zinc-400 cursor-not-allowed'
-                  : 'bg-sky-500 hover:bg-sky-600 hover:shadow-lg'
+                ? 'bg-zinc-400 cursor-not-allowed'
+                : 'bg-sky-500 hover:bg-sky-600 hover:shadow-lg'
                 }`}
             >
               {isSubmitting ? (

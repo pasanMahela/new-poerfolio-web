@@ -12,7 +12,7 @@ export default function Education() {
     useEffect(() => {
         const fetchEducation = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/public/education');
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/public/education`);
                 if (response.data.success) {
                     const sortedData = response.data.data.sort((a, b) => {
                         const getEndDate = (period) => {

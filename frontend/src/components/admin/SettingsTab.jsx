@@ -51,7 +51,7 @@ export default function SettingsTab({ token }) {
     const handleSaveSettings = async () => {
         setLoading(true);
         try {
-            await axios.put('http://localhost:5000/api/settings/settings', settings, axiosConfig);
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/settings/settings`, settings, axiosConfig);
             toast.success('Settings saved successfully!');
         } catch (error) {
             toast.error('Failed to save settings');
@@ -69,7 +69,7 @@ export default function SettingsTab({ token }) {
         formData.append('cv', file);
 
         try {
-            await axios.post('http://localhost:5000/api/settings/upload-cv', formData, {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/settings/upload-cv`, formData, {
                 ...axiosConfig,
                 headers: {
                     ...axiosConfig.headers,
@@ -93,7 +93,7 @@ export default function SettingsTab({ token }) {
         formData.append('3dmodel', file);
 
         try {
-            await axios.post('http://localhost:5000/api/settings/upload-3d-model', formData, {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/settings/upload-3d-model`, formData, {
                 ...axiosConfig,
                 headers: {
                     ...axiosConfig.headers,
@@ -136,7 +136,7 @@ export default function SettingsTab({ token }) {
             const formData = new FormData();
             formData.append('profileImage', croppedImageBlob, 'profile.jpg');
 
-            await axios.post('http://localhost:5000/api/settings/upload-profile-image', formData, {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/settings/upload-profile-image`, formData, {
                 ...axiosConfig,
                 headers: {
                     ...axiosConfig.headers,
