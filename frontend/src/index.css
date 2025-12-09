@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Smooth fonts */
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* Optional: container helper for consistent paddings */
+@layer utilities {
+  .container { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: 1rem; }
+  .spotlight { position: fixed; inset: 0; pointer-events: none; }
+  
+  /* 3D Flip Card Utilities */
+  .perspective-1000 { perspective: 1000px; }
+  .transform-style-preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
+  .rotateY-180 { transform: rotateY(180deg); }
+  
+  /* Party Mode Animations */
+  .party-mode * {
+    animation-duration: 0.5s !important;
+  }
+  
+  .party-mode h1,
+  .party-mode h2,
+  .party-mode h3 {
+    animation: party-text 2s infinite ease-in-out;
+  }
+  
+  .party-mode button {
+    animation: party-button 1s infinite ease-in-out;
+  }
+  
+  @keyframes party-text {
+    0%, 100% { 
+      transform: scale(1) rotate(0deg);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    25% { 
+      transform: scale(1.05) rotate(1deg);
+      text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+    }
+    50% { 
+      transform: scale(1.1) rotate(-1deg);
+      text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    }
+    75% { 
+      transform: scale(1.05) rotate(1deg);
+      text-shadow: 0 0 20px rgba(255, 255, 0, 0.8);
+    }
+  }
+  
+  @keyframes party-button {
+    0%, 100% { 
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    50% { 
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
+    }
+  }
+}
