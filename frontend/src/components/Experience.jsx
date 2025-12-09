@@ -12,7 +12,8 @@ export default function Experience() {
     useEffect(() => {
         const fetchExperience = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/public/experience`);
+                const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                const response = await axios.get(`${API_URL}/api/public/experience`);
                 if (response.data.success) {
                     const sortedData = response.data.data.sort((a, b) => {
                         // Helper to get end date timestamp

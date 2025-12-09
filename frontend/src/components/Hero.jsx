@@ -16,7 +16,8 @@ export default function Hero() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/public/settings`);
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const response = await axios.get(`${API_URL}/api/public/settings`);
         if (response.data.success && response.data.data) {
           setData(response.data.data.personal);
         }
