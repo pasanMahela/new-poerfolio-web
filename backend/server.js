@@ -59,6 +59,7 @@ app.post('/api/contact', async (req, res) => {
     try {
         await sendEmail({
             to: process.env.ADMIN_EMAIL || 'pasancp2000@gmail.com',
+            replyTo: email, // Set reply-to as the contact form sender
             subject: `Portfolio Contact from ${name}`,
             html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
