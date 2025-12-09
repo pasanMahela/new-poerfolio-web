@@ -35,7 +35,7 @@ export const tech = [
     name: "PL/SQL",
     category: "Languages",
     tags: ["Database", "Oracle"],
-    logo: "https://cdn.simpleicons.org/oracle/F80000"
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg"
   },
   {
     name: "Lua",
@@ -195,7 +195,7 @@ export const tech = [
     name: "Canva",
     category: "Design",
     tags: ["Graphics"],
-    logo: "https://cdn.simpleicons.org/canva/00C4CC"
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg"
   },
 
   // Game Development
