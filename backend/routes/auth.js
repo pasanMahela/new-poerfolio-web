@@ -56,9 +56,8 @@ router.post('/request-otp', async (req, res) => {
         const otp = generateOTP();
         saveOTP(email, otp);
 
-        // Send email using Resend
+        // Send email using Resend (to parameter handled by utility)
         await sendEmail({
-            to: email,
             subject: 'Portfolio Admin Login - OTP Code',
             html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
