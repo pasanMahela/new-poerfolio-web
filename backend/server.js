@@ -98,7 +98,8 @@ app.post('/api/contact', async (req, res) => {
         console.error('Error sending email:', error);
         res.status(500).json({
             success: false,
-            message: 'Failed to send message. Please try again later.'
+            message: 'Failed to send message: ' + (error.message || 'Unknown error'),
+            debug: error.toString()
         });
     }
 });
