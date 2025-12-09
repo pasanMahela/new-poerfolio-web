@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Save, Upload, FileText, User, Mail, Phone, MapPin, Github, Linkedin, X, Check } from 'lucide-react';
 import axios from 'axios';
 import Cropper from 'react-easy-crop';
@@ -43,15 +43,32 @@ export default function SettingsTab({ token }) {
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [showCropper, setShowCropper] = useState(false);
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     const axiosConfig = {
         headers: { Authorization: `Bearer ${token}` }
     };
 
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/api/public/settings`);
+                if (response.data.success) {
+                    setSettings(response.data.data);
+                }
+            } catch (error) {
+                console.error('Failed to fetch settings:', error);
+                toast.error('Failed to load settings');
+            }
+        };
+
+        fetchSettings();
+    }, [API_URL, toast]);
+
     const handleSaveSettings = async () => {
         setLoading(true);
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/api/settings/settings`, settings, axiosConfig);
+            await axios.put(`${API_URL}/api/settings/settings`, settings, axiosConfig);
             toast.success('Settings saved successfully!');
         } catch (error) {
             toast.error('Failed to save settings');
@@ -69,7 +86,7 @@ export default function SettingsTab({ token }) {
         formData.append('cv', file);
 
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/settings/upload-cv`, formData, {
+            await axios.post(`${API_URL}/api/settings/upload-cv`, formData, {
                 ...axiosConfig,
                 headers: {
                     ...axiosConfig.headers,
@@ -93,7 +110,7 @@ export default function SettingsTab({ token }) {
         formData.append('3dmodel', file);
 
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/settings/upload-3d-model`, formData, {
+            await axios.post(`${API_URL}/api/settings/upload-3d-model`, formData, {
                 ...axiosConfig,
                 headers: {
                     ...axiosConfig.headers,
@@ -136,7 +153,7 @@ export default function SettingsTab({ token }) {
             const formData = new FormData();
             formData.append('profileImage', croppedImageBlob, 'profile.jpg');
 
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/settings/upload-profile-image`, formData, {
+            await axios.post(`${API_URL}/api/settings/upload-profile-image`, formData, {
                 ...axiosConfig,
                 headers: {
                     ...axiosConfig.headers,

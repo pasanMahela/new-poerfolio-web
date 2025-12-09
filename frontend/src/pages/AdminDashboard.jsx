@@ -40,6 +40,8 @@ export default function AdminDashboard() {
         headers: { Authorization: `Bearer ${token}` }
     };
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
     const tabs = [
         { id: 'projects', label: 'Projects', icon: FolderGit2 },
         { id: 'experience', label: 'Experience', icon: Briefcase },
@@ -61,7 +63,7 @@ export default function AdminDashboard() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/${activeTab}`, axiosConfig);
+            const response = await axios.get(`${API_URL}/api/admin/${activeTab}`, axiosConfig);
             if (response.data.success) {
                 const data = response.data.data;
                 switch (activeTab) {
@@ -114,7 +116,7 @@ export default function AdminDashboard() {
     const handleToggleVisibility = async (project) => {
         const updated = { ...project, visible: !project.visible };
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/projects/${project.id}`, updated, axiosConfig);
+            await axios.put(`${API_URL}/api/admin/projects/${project.id}`, updated, axiosConfig);
             toast.success(updated.visible ? 'Project shown' : 'Project hidden');
             fetchData();
         } catch (error) {
@@ -125,7 +127,7 @@ export default function AdminDashboard() {
     const handleToggleFeatured = async (project) => {
         const updated = { ...project, featured: !project.featured };
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/projects/${project.id}`, updated, axiosConfig);
+            await axios.put(`${API_URL}/api/admin/projects/${project.id}`, updated, axiosConfig);
             toast.success(updated.featured ? 'Marked as featured' : 'Removed from featured');
             fetchData();
         } catch (error) {
@@ -137,7 +139,7 @@ export default function AdminDashboard() {
         if (!window.confirm('Are you sure you want to delete this item?')) return;
 
         try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/${activeTab}/${id}`, axiosConfig);
+            await axios.delete(`${API_URL}/api/admin/${activeTab}/${id}`, axiosConfig);
             toast.success('Deleted successfully');
             fetchData();
         } catch (error) {
@@ -148,7 +150,7 @@ export default function AdminDashboard() {
     const handleSyncGitHub = async () => {
         setSyncingGitHub(true);
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/github/github-repos`, axiosConfig);
+            const response = await axios.get(`${API_URL}/api/github/github-repos`, axiosConfig);
             if (response.data.success) {
                 toast.success(`Found ${response.data.data.length} repositories!`);
             }
@@ -175,11 +177,11 @@ export default function AdminDashboard() {
                 else if (action === 'hide') updated.visible = false;
                 else if (action === 'feature') updated.featured = true;
                 else if (action === 'delete') {
-                    await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/projects/${id}`, axiosConfig);
+                    await axios.delete(`${API_URL}/api/admin/projects/${id}`, axiosConfig);
                     continue;
                 }
 
-                await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/projects/${id}`, updated, axiosConfig);
+                await axios.put(`${API_URL}/api/admin/projects/${id}`, updated, axiosConfig);
             }
 
             toast.success(`Bulk ${action} completed`);
@@ -209,12 +211,12 @@ export default function AdminDashboard() {
     const handleSave = async (item) => {
         try {
             if (item.id && item.id !== 'new') {
-                await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/${activeTab}/${item.id}`, item, axiosConfig);
+                await axios.put(`${API_URL}/api/admin/${activeTab}/${item.id}`, item, axiosConfig);
                 toast.success('Updated successfully');
             } else {
                 const newItem = { ...item };
                 delete newItem.id;
-                await axios.post(`${import.meta.env.VITE_API_URL}/api/admin/${activeTab}`, newItem, axiosConfig);
+                await axios.post(`${API_URL}/api/admin/${activeTab}`, newItem, axiosConfig);
                 toast.success('Created successfully');
             }
             setEditingItem(null);
