@@ -1,115 +1,111 @@
-# Portfolio Website with Admin Dashboard
+# Portfolio Backend Server
 
-A modern, dynamic portfolio website featuring a comprehensive Admin Dashboard for Content Management. Built with the MERN stack (MongoDB, Express.js, React, Node.js).
+Express.js backend for handling contact form submissions via email.
 
-## 🚀 Features
+## Setup Instructions
 
--   **Dynamic Content:** Manage Hero section, About me, Experience, Projects, Skills, and Social links directly from the admin panel.
--   **Admin Dashboard:** Secure login with email OTP authentication.
--   **Project Management:** Add, edit, delete, and toggle visibility of projects.
--   **GitHub Integration:** Sync repositories directly from GitHub.
--   **File Management:** Upload and crop profile pictures, manage CVs and 3D models.
--   **Modern UI/UX:** Responsive design, dark mode support, and smooth animations using Framer Motion.
-
-## 📂 Project Structure
-
-The project is divided into two main folders:
-
--   **`frontend/`**: The React application (Vite).
--   **`backend/`**: The Node.js/Express server and MongoDB connection.
-
-## 🛠️ Technology Stack
-
--   **Frontend:** React, Vite, Tailwind CSS, Framer Motion, Axios
--   **Backend:** Node.js, Express.js, MongoDB (Mongoose)
--   **Authentication:** JWT, Email OTP (Nodemailer)
--   **Tools:** Multer (File Uploads), React Easy Crop
-
-## ⚙️ Setup & Installation
-
-You need to set up both the frontend and backend.
-
-### 1. Prerequisites
-
--   Node.js (v18 or higher)
--   MongoDB Atlas account (or local MongoDB)
--   Git
-
-### 2. Backend Setup
-
-1.  Navigate to the backend folder:
-    ```bash
-    cd backend
-    ```
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Create a `.env` file in the `backend` directory (see [Environment Variables](#environment-variables)).
-4.  Start the server:
-    ```bash
-    npm run dev
-    ```
-    The server will start on `http://localhost:5000`.
-
-### 3. Frontend Setup
-
-1.  Open a new terminal and navigate to the frontend folder:
-    ```bash
-    cd frontend
-    ```
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Start the development server:
-    ```bash
-    npm run dev
-    ```
-    The site will be available at `http://localhost:5173`.
-
-## 🔐 Environment Variables
-
-Create a `.env` file in the **`backend/`** directory with the following:
-
-```env
-# Server Configuration
-PORT=5000
-
-# MongoDB Configuration
-MONGODB_URI=your_mongodb_connection_string
-
-# Email Configuration (for OTPs)
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_gmail_app_password
-
-# Admin Configuration
-ADMIN_EMAIL=your_admin_email@example.com
-JWT_SECRET=your_super_secret_key_change_this
+### 1. Install Dependencies
+```bash
+cd server
+npm install
 ```
 
-## 🏃‍♂️ Running the Project
+### 2. Configure Gmail App Password
 
-To run the full application locally:
+1. Go to your Google Account: https://myaccount.google.com/
+2. Navigate to **Security** → **2-Step Verification** (enable if not already)
+3. Scroll down to **App Passwords**
+4. Click **Select app** → Choose **Mail**
+5. Click **Select device** → Choose **Other (Custom name)**
+6. Enter "Portfolio Backend" and click **Generate**
+7. Copy the 16-character password (remove spaces)
 
-1.  **Terminal 1 (Backend):**
-    ```bash
-    cd backend
-    npm run dev
-    ```
-2.  **Terminal 2 (Frontend):**
-    ```bash
-    cd frontend
-    npm run dev
-    ```
+### 3. Create Environment File
 
-## 📝 Admin Access
+```bash
+# Copy the example file
+cp .env.example .env
 
-1.  Go to `http://localhost:5173/admin`.
-2.  Enter the email configured as `ADMIN_EMAIL` in your `.env`.
-3.  Check your email for the OTP code.
-4.  Enter the code to access the dashboard.
+# Edit .env and add your Gmail App Password
+# Replace 'your_gmail_app_password_here' with the password from step 2
+```
 
-## 📄 License
+Your `.env` file should look like:
+```
+PORT=5000
+EMAIL_USER=pasancp2000@gmail.com
+EMAIL_PASS=abcd efgh ijkl mnop  # Your actual app password
+```
 
-MIT License.
+### 4. Run the Server
+
+**Development mode (with auto-restart):**
+```bash
+npm run dev
+```
+
+**Production mode:**
+```bash
+npm start
+```
+
+The server will start on `http://localhost:5000`
+
+## Testing
+
+### Health Check
+```bash
+curl http://localhost:5000/api/health
+```
+
+### Test Contact Form
+```bash
+curl -X POST http://localhost:5000/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Test User",
+    "email": "test@example.com",
+    "message": "This is a test message"
+  }'
+```
+
+## API Endpoints
+
+### GET /api/health
+Health check endpoint
+- **Response**: `{ status: 'OK', message: 'Server is running' }`
+
+### POST /api/contact
+Submit contact form
+- **Body**: 
+  ```json
+  {
+    "name": "string",
+    "email": "string",
+    "message": "string"
+  }
+  ```
+- **Success Response**: `{ success: true, message: 'Message sent successfully!' }`
+- **Error Response**: `{ success: false, message: 'Error message' }`
+
+## Deployment
+
+For production deployment, you can use:
+- **Heroku**: `heroku create` and `git push heroku main`
+- **Railway**: Connect your GitHub repo
+- **Render**: Deploy from GitHub
+- **DigitalOcean**: Use App Platform
+
+Remember to set environment variables in your hosting platform!
+
+## Troubleshooting
+
+**Email not sending?**
+- Verify Gmail App Password is correct
+- Check if 2-Step Verification is enabled
+- Make sure .env file is in the server directory
+- Check server logs for error messages
+
+**CORS errors?**
+- Make sure the frontend is running on the expected port
+- Update CORS configuration in server.js if needed
