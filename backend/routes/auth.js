@@ -1,5 +1,5 @@
 import express from 'express';
-import nodemailer from 'nodemailer';
+import { sendEmail } from '../utils/email.js';
 import { generateOTP, saveOTP, verifyOTP } from '../utils/otp.js';
 import { generateToken } from '../utils/auth.js';
 import dotenv from 'dotenv';
@@ -10,18 +10,6 @@ const router = express.Router();
 
 // Admin email (only this email can access admin)
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'pasancp2000@gmail.com';
-
-// Email transporter
-// Email transporter
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
 
 // Rate limiting for OTP requests (max 3 per hour per IP)
 const otpRequestLimits = new Map();
@@ -68,9 +56,8 @@ router.post('/request-otp', async (req, res) => {
         const otp = generateOTP();
         saveOTP(email, otp);
 
-        // Send email
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+        // Send email using Resend
+        await sendEmail({
             to: email,
             subject: 'Portfolio Admin Login - OTP Code',
             html: `

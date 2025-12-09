@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import nodemailer from 'nodemailer';
+import { sendEmail } from './utils/email.js';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
 import adminRoutes from './routes/admin.js';
@@ -21,18 +21,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
-
-// Email transporter configuration
-// Email transporter configuration
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',         // Use explicit host
-    port: 465,                      // Use secure port 465
-    secure: true,                   // Use TLS
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
 
 // Connect to MongoDB
 connectDB();
@@ -69,10 +57,8 @@ app.post('/api/contact', async (req, res) => {
     }
 
     try {
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: 'pasancp2000@gmail.com',
-            replyTo: email,
+        await sendEmail({
+            to: process.env.ADMIN_EMAIL || 'pasancp2000@gmail.com',
             subject: `Portfolio Contact from ${name}`,
             html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -86,11 +72,12 @@ app.post('/api/contact', async (req, res) => {
           <p style="color: #6b7280; font-size: 14px;">
             This message was sent from your portfolio contact form.
           </p>
+          <p style="color: #6b7280; font-size: 14px;">
+            Reply to: ${email}
+          </p>
         </div>
       `
-        };
-
-        await transporter.sendMail(mailOptions);
+        });
 
         res.json({
             success: true,
